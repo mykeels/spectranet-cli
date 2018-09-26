@@ -1,0 +1,13 @@
+{
+  "name": "spectranet-cli",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "mykeels",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "commander": "^2.18.0",
+    "dotenv": "^6.0.0",
+    "puppeteer": "^1.8.0"
+  }
+}
