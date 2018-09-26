@@ -9,12 +9,6 @@ const { puppeteer, launch, login, root } = require('./launch.js')
 
 program
     .version(package.version)
-    .option('-s, --screenshot', 'take screenshot at checkpoints')
-
-program
     .command('info [env]', 'displays basic information', { isDefault: true })
-
-program
     .command('payments [env]', 'handles payments')
-
-program.parse(process.argv);
+    .parse(process.argv);

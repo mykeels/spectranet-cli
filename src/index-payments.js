@@ -1,6 +1,12 @@
 const { puppeteer, launch, login, root } = require('./launch.js');
 const { createTakeScreenshot } = require('./screenshot.js');
 const url = require('url');
+const program = require('commander')
+
+program
+    .option('-f, --first <count>', 'view oldest payment info')
+    .option('-l, --last <count>', 'view most recent payment info')
+    .parse(process.argv);
 
 (async () => {
     const page = await launch()
@@ -63,9 +69,21 @@ const url = require('url');
         }))
 
         console.log(`id\t\tdate\t\t\tmethod\t\tamount`)
-        payments.reverse().map(p => {
-            console.log(`${p.id}\t${p.date}\t${p.method}\t${p.amount}`)
-        })
+        if (program.first) {
+            payments.slice(0, Number(program.first) || 1).map(p => {
+                console.log(`${p.id}\t${p.date}\t${p.method}\t${p.amount}`)
+            })
+        }
+        else if (program.last) {
+            payments.reverse().slice(0, Number(program.last) || 1).map(p => {
+                console.log(`${p.id}\t${p.date}\t${p.method}\t${p.amount}`)
+            })
+        }
+        else {
+            payments.reverse().map(p => {
+                console.log(`${p.id}\t${p.date}\t${p.method}\t${p.amount}`)
+            })
+        }
 
         return payments
     }
