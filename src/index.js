@@ -3,12 +3,9 @@ const puppeteer = require('puppeteer')
 const package = require('../package.json')
 const dotenv = require('dotenv')
 const { createTakeScreenshot } = require('./screenshot.js')
-
+const { basicInfo, print } = require('./basic-info.js')
 
 dotenv.config()
-
-program
-  .version(package.version)
 
 const root = 'https://selfcare.spectranet.com.ng';
 const username = process.env.SPECTRANET_USERNAME;
@@ -23,29 +20,9 @@ const login = async (page) => {
     await page.waitForNavigation()
 }
 
-const info = async (page) => {
-    const items = await page.evaluate(() => {
-        return $('.speakout').map(function () {
-            return $(this).text()
-        })
-    })
 
-    return {
-        loginId: items[0],
-        accountId: items[1],
-        lastLoginDate: items[2],
-        dataExpirationDate: items[3],
-        accountBalance: items[4],
-        lastPaymentDate: items[5],
-        nextRenewalDate: items[6],
-        currentDataPlan: {
-            name: items[7],
-            description: items[8]
-        }
-    }
-}
 
-(async () => {
+const launch = async () => {
     const browser = await puppeteer.launch({ headless: false })
     
     try {
@@ -55,14 +32,34 @@ const info = async (page) => {
         await takeScreenshot('01-login')
         await login(page)
         await takeScreenshot('02-after-login')
-        console.log(
-            await info(page)
-        )
-        await browser.close()
+
+        page.browser = () => browser
+
+        return page
     }
     catch (err) {
         console.error(err)
         await browser.close()
         process.exit(1)
+    }
+}
+
+/**
+ * now begin execution
+ */
+
+program
+  .version(package.version)
+  .option('-s --screenshot', 'Take Screenshot at checkpoints')
+
+program.parse(process.argv);
+
+(async () => {
+    if (program.args.length < 1) {
+        const page = await launch()
+        print(
+            await basicInfo({ program, page })
+        )
+        await page.browser().close()
     }
 })()
