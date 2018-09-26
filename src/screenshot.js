@@ -7,7 +7,13 @@ if (!fs.existsSync(screenshot())) {
     fs.mkdirSync(screenshot())
 }
 
-const createTakeScreenshot = (page) => async (name) => await page.screenshot({ path: screenshot(`${name}.png`) })
+const createTakeScreenshot = (page) => async (name) => {
+    const path = screenshot(`${name}.png`)
+
+    await page.screenshot({ path })
+
+    return path
+}
 
 module.exports = screenshot
 

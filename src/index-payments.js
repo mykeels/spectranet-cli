@@ -19,7 +19,55 @@ const url = require('url');
 
         await takeScreenshot('03-payments')
 
+        let payments = []
+
+        do {
+            if (payments.length) {
+                await page.waitForNavigation()
+            }
+
+            const pagePayments = await page.evaluate(function () {
+                return $('div.table-responsive table tbody tr').map(function () {
+                    return $(this).find('td').map(function () {
+                        return $(this).text()
+                    }).toArray()
+                }).toArray()
+            })
+
+            payments = payments.concat(pagePayments)
+        }
+        while (await page.evaluate(function () {
+            var $a = $('table[id].table a').filter(function () {
+                return $(this).text() == 'Next'
+            })
+            if ($a.length > 0) {
+                $a.click()
+                return true
+            }
+            return false
+        }))
+
         await page.browser().close()
+
+        payments = payments.reduce((arr, item) => {
+            if (!arr.length || arr[arr.length - 1].length == 4) arr.push([])
+            arr[arr.length - 1].push(item)
+            return arr
+        }, [])
+
+        payments = payments.map(p => ({
+            id: p[0],
+            date: p[1],
+            method: p[2],
+            amount: p[3]
+        }))
+
+        console.log(`id\t\tdate\t\t\tmethod\t\tamount`)
+        payments.reverse().map(p => {
+            console.log(`${p.id}\t${p.date}\t${p.method}\t${p.amount}`)
+        })
+
+        return payments
     }
     catch (err) {
         console.error('payments: ', err)
