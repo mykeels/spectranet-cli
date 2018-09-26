@@ -1,5 +1,5 @@
-const { basicInfo, print } = require('./basic-info.js')
-const { puppeteer, launch, login, root } = require('./launch.js');
+const { basicInfo, print } = require('./utils/basic-info.js')
+const { puppeteer, launch, login, root } = require('./utils/launch.js');
 const program = require('commander')
 
 program

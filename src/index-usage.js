@@ -1,5 +1,5 @@
-const { puppeteer, launch, login, root } = require('./launch.js');
-const { createTakeScreenshot } = require('./screenshot.js');
+const { puppeteer, launch, login, root } = require('./utils/launch.js');
+const { createTakeScreenshot } = require('./utils/screenshot.js');
 const url = require('url');
 const program = require('commander')
 const moment = require('moment')

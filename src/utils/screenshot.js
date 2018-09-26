@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 
-const screenshot = (filename) => path.join(__dirname, `../screenshots${filename ? '/' : ''}${filename || ''}`)
+const screenshot = (filename) => path.join(__dirname, `../../screenshots${filename ? '/' : ''}${filename || ''}`)
 
 if (!fs.existsSync(screenshot())) {
     fs.mkdirSync(screenshot())
