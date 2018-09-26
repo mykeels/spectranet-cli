@@ -6,10 +6,11 @@ const program = require('commander')
 program
     .option('-f, --first <count>', 'view oldest payment info')
     .option('-l, --last <count>', 'view most recent payment info')
+    .option('-w, --window', 'show browser window')
     .parse(process.argv);
 
 (async () => {
-    const page = await launch()
+    const page = await launch({ headless: !program.window })
 
     try {
         const takeScreenshot = createTakeScreenshot(page)

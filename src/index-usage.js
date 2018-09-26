@@ -7,10 +7,11 @@ const moment = require('moment')
 program
     .option('-f, --from <from>', 'from date in DD-MM-YYYY format')
     .option('-t, --to <to>', 'to date in DD-MM-YYYY format')
+    .option('-w, --window', 'show browser window')
     .parse(process.argv);
 
 (async () => {
-    const page = await launch()
+    const page = await launch({ headless: !program.window })
 
     try {
         const takeScreenshot = createTakeScreenshot(page)

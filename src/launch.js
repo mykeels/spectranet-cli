@@ -4,8 +4,8 @@ const { login } = require('./login.js')
 
 const root = 'https://selfcare.spectranet.com.ng';
 
-const launch = async () => {
-    const browser = await puppeteer.launch({ headless: false })
+const launch = async ({ headless }) => {
+    const browser = await puppeteer.launch({ headless })
     
     try {
         const page = await browser.newPage()
