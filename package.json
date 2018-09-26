@@ -11,6 +11,7 @@
   "dependencies": {
     "commander": "^2.18.0",
     "dotenv": "^6.0.0",
+    "moment": "^2.22.2",
     "puppeteer": "^1.8.0"
   }
 }
