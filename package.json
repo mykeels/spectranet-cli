@@ -1,12 +1,14 @@
 {
   "name": "spectranet-cli",
   "version": "1.0.0",
-  "main": "src/index.js",
+  "main": "src/spectranet-cli.js",
   "author": "mykeels",
   "license": "MIT",
   "private": false,
+  "preferGlobal": true,
+  "bin": "./src/spectranet-cli.js",
   "scripts": {
-    "start": "node ./src/index.js"
+    "start": "node ./src/spectranet-cli.js"
   },
   "dependencies": {
     "commander": "^2.18.0",

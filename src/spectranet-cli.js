@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /**
  * Spectranet CLI is an unofficial command-line interface for accessing spectranet user account data
  */
