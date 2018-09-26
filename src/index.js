@@ -9,5 +9,6 @@ const program = require('commander')
 program
     .version('0.0.1')
     .command('info [env]', 'displays basic information', { isDefault: true })
-    .command('payments [env]', 'handles payments')
+    .command('payments [env]', 'displays payment history')
+    .command('usage [env]', 'displays usage histories')
     .parse(process.argv);
