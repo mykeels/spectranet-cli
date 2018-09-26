@@ -1,14 +1,13 @@
-const program = require('commander')
-const package = require('../package.json')
-const { basicInfo, print } = require('./basic-info.js')
-const { puppeteer, launch, login, root } = require('./launch.js')
-
 /**
- * now begin execution
+ * Spectranet CLI is an unofficial command-line interface for accessing spectranet user account data
  */
 
+const program = require('commander')
+
+// define sub commands
+
 program
-    .version(package.version)
+    .version('0.0.1')
     .command('info [env]', 'displays basic information', { isDefault: true })
     .command('payments [env]', 'handles payments')
     .parse(process.argv);
