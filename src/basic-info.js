@@ -1,4 +1,4 @@
-const basicInfo = async ({ program, page }) => {
+const basicInfo = async (page) => {
     const items = await page.evaluate(() => {
         return $('.speakout').map(function () {
             return $(this).text()

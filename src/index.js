@@ -1,26 +1,11 @@
 const program = require('commander')
 const puppeteer = require('puppeteer')
 const package = require('../package.json')
-const dotenv = require('dotenv')
 const { createTakeScreenshot } = require('./screenshot.js')
 const { basicInfo, print } = require('./basic-info.js')
-
-dotenv.config()
+const { login } = require('./login.js')
 
 const root = 'https://selfcare.spectranet.com.ng';
-const username = process.env.SPECTRANET_USERNAME;
-const password = process.env.SPECTRANET_PASSWORD;
-
-const login = async (page) => {
-    await page.evaluate((username, password) => {
-        $('[name="signInForm.username"]').val(username)
-        $('[name="signInForm.password"]').val(password)
-        $('[name="signInContainer:submit"]').click()
-    }, username, password)
-    await page.waitForNavigation()
-}
-
-
 
 const launch = async () => {
     const browser = await puppeteer.launch({ headless: false })
@@ -58,7 +43,7 @@ program.parse(process.argv);
     if (program.args.length < 1) {
         const page = await launch()
         print(
-            await basicInfo({ program, page })
+            await basicInfo(page)
         )
         await page.browser().close()
     }
