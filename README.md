@@ -4,7 +4,7 @@ This is an unofficial CLI tool for accessing Spectranet user account data from i
 
 ## Installation
 
-`yarn add spectranet-cli`
+`yarn global add spectranet-cli`
 
 ## Usage
 
