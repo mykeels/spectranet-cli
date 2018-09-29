@@ -1,7 +1,6 @@
 const { puppeteer, launch, login, root } = require('./utils/launch.js');
-const { createTakeScreenshot } = require('./utils/screenshot.js');
-const url = require('url');
 const program = require('commander')
+const { getPayments, print } = require('./utils/get-payments')
 
 program
     .option('-f, --first <count>', 'view oldest payment info')
@@ -12,81 +11,20 @@ program
 (async () => {
     const page = await launch({ headless: !program.window })
 
+    page.program = () => program
+
     try {
-        const takeScreenshot = createTakeScreenshot(page)
-        const nextPageUrl = await page.evaluate(function () {
-            return $('#myNavbar ul a').filter(function () {
-                return $(this).text() == 'Payment History'
-            }).attr('href')
-        })
+        const payments = await getPayments(page)
 
-        const paymentsUrl = url.resolve(page.url(), nextPageUrl)
-
-        await page.goto(paymentsUrl)
-
-        await takeScreenshot('03-payments')
-
-        let payments = []
-
-        do {
-            if (payments.length) {
-                await page.waitForNavigation()
-            }
-
-            const pagePayments = await page.evaluate(function () {
-                return $('div.table-responsive table tbody tr').map(function () {
-                    return $(this).find('td').map(function () {
-                        return $(this).text()
-                    }).toArray()
-                }).toArray()
-            })
-
-            payments = payments.concat(pagePayments)
-        }
-        while (await page.evaluate(function () {
-            var $a = $('table[id].table a').filter(function () {
-                return $(this).text() == 'Next'
-            })
-            if ($a.length > 0) {
-                $a.click()
-                return true
-            }
-            return false
-        }))
-
-        await page.browser().close()
-
-        payments = payments.reduce((arr, item) => {
-            if (!arr.length || arr[arr.length - 1].length == 4) arr.push([])
-            arr[arr.length - 1].push(item)
-            return arr
-        }, [])
-
-        payments = payments.map(p => ({
-            id: p[0],
-            date: p[1],
-            method: p[2],
-            amount: p[3]
-        }))
-
-        console.log(`id\t\tdate\t\t\tmethod\t\tamount`)
         if (program.first) {
-            payments.slice(0, Number(program.first) || 1).map(p => {
-                console.log(`${p.id}\t${p.date}\t${p.method}\t${p.amount}`)
-            })
+            print(payments.reverse().slice(0, Number(program.first) || 1))
         }
         else if (program.last) {
-            payments.reverse().slice(0, Number(program.last) || 1).map(p => {
-                console.log(`${p.id}\t${p.date}\t${p.method}\t${p.amount}`)
-            })
+            print(payments.slice(0, Number(program.last) || 1))
         }
         else {
-            payments.reverse().map(p => {
-                console.log(`${p.id}\t${p.date}\t${p.method}\t${p.amount}`)
-            })
+            print(payments)
         }
-
-        return payments
     }
     catch (err) {
         console.error('payments: ', err)

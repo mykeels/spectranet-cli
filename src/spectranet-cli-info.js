@@ -1,4 +1,4 @@
-const { basicInfo, print } = require('./utils/basic-info.js')
+const { getInfo, print } = require('./utils/basic-info.js')
 const { puppeteer, launch, login, root } = require('./utils/launch.js');
 const program = require('commander')
 
@@ -9,7 +9,7 @@ program
 (async () => {
     const page = await launch({ headless: !program.window })
     print(
-        await basicInfo(page)
+        await getInfo(page)
     )
     await page.browser().close()
 })()

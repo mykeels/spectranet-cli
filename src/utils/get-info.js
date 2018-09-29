@@ -1,4 +1,4 @@
-const basicInfo = async (page) => {
+const getInfo = async (page) => {
     const items = await page.evaluate(() => {
         return $('.speakout').map(function () {
             return $(this).text()
@@ -37,6 +37,6 @@ const print = ({ loginId, accountId,  lastLoginDate, dataExpirationDate,  accoun
     }
 }
 
-module.exports = basicInfo
-module.exports.basicInfo = basicInfo
+module.exports = getInfo
+module.exports.getInfo = getInfo
 module.exports.print = print
