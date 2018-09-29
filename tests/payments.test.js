@@ -4,7 +4,7 @@ const spectranet = require('../src/spectranet-cli.js')
 
 describe('payments', () => {
     it('should respond with array of payments', () => {
-        return spectranet.payments().then(payments => {
+        spectranet.payments().then(payments => {
             assert.isArray(payments)
         })
     })

@@ -4,7 +4,7 @@ const spectranet = require('../src/spectranet-cli.js')
 
 describe('usage', () => {
     it('should respond with usage history', () => {
-        return spectranet.usage().then(records => {
+        spectranet.usage().then(records => {
             assert.isArray(records)
         })
     })
