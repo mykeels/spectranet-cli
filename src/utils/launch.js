@@ -1,11 +1,13 @@
-const puppeteer = require('puppeteer')
+const puppeteer = require('puppeteer-core')
 const { createTakeScreenshot } = require('./screenshot.js')
 const { login } = require('./login.js')
+const locateChrome = require('./locate-chrome.js')
 
 const root = 'https://selfcare.spectranet.com.ng';
 
 const launch = async ({ headless }) => {
-    const browser = await puppeteer.launch({ headless })
+    const executablePath = await locateChrome()
+    const browser = await puppeteer.launch({ headless, executablePath })
     
     try {
         const page = await browser.newPage()

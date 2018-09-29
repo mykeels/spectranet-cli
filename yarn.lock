@@ -64,6 +64,10 @@ dotenv@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-6.0.0.tgz#24e37c041741c5f4b25324958ebbc34bca965935"
 
+es6-promise@^2.0.0:
+  version "2.3.0"
+  resolved "http://registry.npmjs.org/es6-promise/-/es6-promise-2.3.0.tgz#96edb9f2fdb01995822b263dd8aadab6748181bc"
+
 es6-promise@^4.0.3:
   version "4.2.5"
   resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-4.2.5.tgz#da6d0d5692efb461e082c14817fe2427d8f5d054"
@@ -126,6 +130,14 @@ isarray@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/isarray/-/isarray-1.0.0.tgz#bb935d48582cba168c06834957a54a3e07124f11"
 
+locate-chrome@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/locate-chrome/-/locate-chrome-0.1.1.tgz#5f20d1d6ec8e4092603bc77db10fd99686faeb5e"
+  dependencies:
+    es6-promise "^2.0.0"
+    queue-async "^1.0.0"
+    userhome "^1.0.0"
+
 mime@^2.0.3:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/mime/-/mime-2.3.1.tgz#b1621c54d63b97c47d3cfe7f7215f7d64517c369"
@@ -184,9 +196,9 @@ proxy-from-env@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/proxy-from-env/-/proxy-from-env-1.0.0.tgz#33c50398f70ea7eb96d21f7b817630a55791c7ee"
 
-puppeteer@^1.8.0:
+puppeteer-core@^1.8.0:
   version "1.8.0"
-  resolved "https://registry.yarnpkg.com/puppeteer/-/puppeteer-1.8.0.tgz#9e8bbd2f5448cc19cac220efc0512837104877ad"
+  resolved "https://registry.yarnpkg.com/puppeteer-core/-/puppeteer-core-1.8.0.tgz#d847b2889af516a8eeac63c91bba5304652f0d0b"
   dependencies:
     debug "^3.1.0"
     extract-zip "^1.6.6"
@@ -196,6 +208,10 @@ puppeteer@^1.8.0:
     proxy-from-env "^1.0.0"
     rimraf "^2.6.1"
     ws "^5.1.1"
+
+queue-async@^1.0.0:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/queue-async/-/queue-async-1.2.1.tgz#0582e01dae253258cf576fc2a35db96fca847f6f"
 
 readable-stream@^2.2.2:
   version "2.3.6"
@@ -232,6 +248,10 @@ string_decoder@~1.1.1:
 typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
+
+userhome@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/userhome/-/userhome-1.0.0.tgz#b6491ff12d21a5e72671df9ccc8717e1c6688c0b"
 
 util-deprecate@~1.0.1:
   version "1.0.2"
