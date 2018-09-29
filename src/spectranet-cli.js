@@ -15,7 +15,7 @@ if (require.main === module) {
     const program = require('commander')
 
     program
-        .version('1.0.2')
+        .version('1.0.3')
         .command('info [env]', 'displays basic information', { isDefault: true })
         .command('payments [env]', 'displays payment history')
         .command('usage [env]', 'displays usage histories')
