@@ -1,4 +1,4 @@
-const { getInfo, print } = require('./utils/basic-info.js')
+const { getInfo, print } = require('./utils/get-info.js')
 const { puppeteer, launch, login, root } = require('./utils/launch.js');
 const program = require('commander')
 
