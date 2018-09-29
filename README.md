@@ -20,7 +20,27 @@ npm i -g spectranet-cli
 
 - You will need to have Google Chrome installed to use this. This program should automatically detect the file path to your Chrome executable, however you can override it by specifying the `CHROME_EXECUTABLE_PATH` env variable. e.g. `CHROME_EXECUTABLE_PATH="/path/to/chrome" spectranet-cli`
 
-## Usage
+## Usage as NPM Module
+
+```js
+const spectranet = require('spectranet-cli')
+
+spectranet.info().then(info => {
+    console.log('my basic spectranet info', info)
+})
+
+spectranet.payments().then(payments => {
+    console.log('my spectranet payments', payments)
+})
+
+spectranet.usage().then(records => {
+    console.log('my usage history', records)
+})
+```
+
+You can specify `username` and `password` either by setting the `SPECTRANET_USERNAME` and `SPECTRANET_PASSWORD` env variables respectively, or by using the `spectranet.config({ username, password })` method.
+
+## Usage as CLI Tool
 
 - Get Basic Info
 

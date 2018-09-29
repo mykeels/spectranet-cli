@@ -15,7 +15,7 @@ if (require.main === module) {
     const program = require('commander')
 
     program
-        .version('1.0.1')
+        .version('1.0.2')
         .command('info [env]', 'displays basic information', { isDefault: true })
         .command('payments [env]', 'displays payment history')
         .command('usage [env]', 'displays usage histories')
@@ -26,6 +26,7 @@ module.exports = {
     config: ({ username, password }) => {
         if (username) process.env.SPECTRANET_USERNAME = username
         if (password) process.env.SPECTRANET_PASSWORD = password
+        return this
     },
     async info (opts) {
         this.config(opts = opts || {})
