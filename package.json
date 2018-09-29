@@ -8,7 +8,8 @@
   "preferGlobal": true,
   "bin": "./src/spectranet-cli.js",
   "scripts": {
-    "start": "node ./src/spectranet-cli.js"
+    "start": "node ./src/spectranet-cli.js",
+    "test": "mocha ./tests"
   },
   "dependencies": {
     "commander": "^2.18.0",
@@ -17,5 +18,9 @@
     "moment": "^2.22.2",
     "puppeteer-core": "^1.8.0",
     "readline-sync": "^1.4.9"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0"
   }
 }
