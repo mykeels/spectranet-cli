@@ -16,6 +16,10 @@ or
 npm i -g spectranet-cli
 ```
 
+## Dependencies
+
+- You will need to have Google Chrome installed to use this. This program should automatically detect the file path to your Chrome executable, however you can override it by specifying the `CHROME_EXECUTABLE_PATH` env variable. e.g. `CHROME_EXECUTABLE_PATH="/path/to/chrome" spectranet-cli`
+
 ## Usage
 
 - Get Basic Info
