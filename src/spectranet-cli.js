@@ -35,7 +35,7 @@ module.exports = {
   
         this.config(opts = opts || {})
 
-        const page = await launch({ headless: false })
+        const page = await launch({ headless: opts.headless })
 
         const info = await getInfo(page)
         
