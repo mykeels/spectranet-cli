@@ -36,6 +36,10 @@ spectranet.payments().then(payments => {
 spectranet.usage().then(records => {
     console.log('my usage history', records)
 })
+
+spectranet.speed().then(speed => {
+    console.log('my network speed', speed)
+})
 ```
 
 You can specify `username` and `password` either by setting the `SPECTRANET_USERNAME` and `SPECTRANET_PASSWORD` env variables respectively, or by using the `spectranet.config({ username, password })` method.
@@ -76,4 +80,10 @@ or
 
 ```bash
 spectranet-cli usage --from 26-09-2018
+```
+
+- Get Internet Speed Info
+
+```bash
+spectranet-cli speed
 ```
