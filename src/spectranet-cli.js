@@ -5,9 +5,11 @@
  */
 
 const { launch } = require('./utils/launch.js');
-const { getInfo } = require('./utils/get-info')
-const { getPayments } = require('./utils/get-payments')
-const { getUsage } = require('./utils/get-usage')
+const { getInfo } = require('./utils/get-info');
+const { getPayments } = require('./utils/get-payments');
+const { getUsage } = require('./utils/get-usage');
+const { getSpeed } = require('./utils/get-speed');
+
 
 // define sub commands
 
@@ -19,6 +21,7 @@ if (require.main === module) {
         .command('info [env]', 'displays basic information', { isDefault: true })
         .command('payments [env]', 'displays payment history')
         .command('usage [env]', 'displays usage histories')
+        .command('speed [env]', 'displays current speed details')
         .parse(process.argv);
 }
 
@@ -29,6 +32,7 @@ module.exports = {
         return this
     },
     async info (opts) {
+  
         this.config(opts = opts || {})
 
         const page = await launch({ headless: opts.headless })
@@ -60,5 +64,10 @@ module.exports = {
         await page.browser().close()
 
         return records
-    }
+    },
+    async speed() {
+        const speed = await getSpeed();
+        
+        return `${speed} Mbps`;
+    } 
 }
