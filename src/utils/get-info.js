@@ -1,7 +1,4 @@
-const { getSpeed } = require('./get-speed.js');
-
 const getInfo = async (page) => {
-    const speed = await getSpeed(); 
     const items = await page.evaluate(() => {
         return $('.speakout').map(function () {
             return $(this).text()
@@ -19,15 +16,14 @@ const getInfo = async (page) => {
         currentDataPlan: {
             name: items[7],
             description: items[8]
-        },
-        currentSpeed: speed
+        }
     }
 
     return data
 }
 
 const print = ({ loginId, accountId,  lastLoginDate, dataExpirationDate,  accountBalance, 
-                lastPaymentDate,  nextRenewalDate, currentDataPlan, currentSpeed }) => {
+                lastPaymentDate,  nextRenewalDate, currentDataPlan }) => {
     if (loginId) console.log('Login ID: ', loginId)
     if (accountId) console.log('Account ID: ', accountId)
     if (lastLoginDate) console.log('Last Seen: ', lastLoginDate)
@@ -35,7 +31,6 @@ const print = ({ loginId, accountId,  lastLoginDate, dataExpirationDate,  accoun
     if (accountBalance) console.log('Account Balance: ', accountBalance)
     if (lastPaymentDate) console.log('Last Payment Date: ', lastPaymentDate)
     if (nextRenewalDate) console.log('Next Renewal Date: ', nextRenewalDate)
-    if (currentSpeed) console.log(`Current Internet Speed: ${currentSpeed} Mbps`)
     if (currentDataPlan) {
         if (currentDataPlan.name) console.log('Current Data Plan: ', currentDataPlan.name)
         if (currentDataPlan.description) console.log('\t\t : ', currentDataPlan.description)

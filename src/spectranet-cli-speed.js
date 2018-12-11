@@ -8,8 +8,9 @@ const { getSpeed } = require('./utils/get-speed.js');
 
 
 (async () => {
-  // get Network speed
+  // get Internet speed
   const speed = await getSpeed();
-  console.log(`Current Internet Speed:${speed} Mbps`);
-
+  if (speed) {
+    console.log(`Current Internet Speed:${speed} Mbps`);
+  }
 })();

@@ -9,7 +9,7 @@ const FastSpeedTest = require('fast-speedtest-api');
 
 //Create FastSpeedTest instance
 const speedTest = new FastSpeedTest({
-  token: "YXNkZmFzZGxmbnNkYWZoYXNkZmhrYWxm",
+  token: 'YXNkZmFzZGxmbnNkYWZoYXNkZmhrYWxm',
   verbose: false,
   timeout: 10000,
   https: true,
