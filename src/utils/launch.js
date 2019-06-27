@@ -5,7 +5,7 @@ const locateChrome = require('./locate-chrome.js')
 
 const root = 'https://selfcare.spectranet.com.ng';
 
-const launch = async ({ headless }) => {
+const launch = async ({ headless, save, logout }) => {
     const executablePath = await locateChrome()
     const browser = await puppeteer.launch({ headless, executablePath })
     
@@ -14,7 +14,7 @@ const launch = async ({ headless }) => {
         const takeScreenshot = createTakeScreenshot(page)
         await page.goto(root)
         await takeScreenshot('01-login')
-        await login(page)
+        await login(page, save, logout)
         await takeScreenshot('02-after-login')
 
         page.browser = () => browser
