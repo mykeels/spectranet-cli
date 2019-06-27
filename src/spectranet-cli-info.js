@@ -4,8 +4,8 @@ const program = require('commander')
 
 program
     .option('-w, --window', 'show browser window')
-    .option('-s, --save', 'save credentials')
-    .option('-l, --logout', 'logout')
+    .option('-s, --save', 'save login details')
+    .option('-l, --logout', 'delete previously saved login details')
     .parse(process.argv);
 
 (async () => {
