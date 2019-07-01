@@ -50,6 +50,8 @@ You can specify `username` and `password` either by setting the `SPECTRANET_USER
 
 ```bash
 spectranet-cli
+    -s, --save  save login details
+    -l, --logout  delete previously saved login details
 ```
 
 - Get Payments Info
