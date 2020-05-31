@@ -2,6 +2,13 @@ const { createTakeScreenshot } = require('./screenshot.js');
 const url = require('url');
 const moment = require('moment')
 
+const formatData = val => {
+    const gb = Math.floor(val / 1024 / 1024)
+    const mb = Math.floor(val / 1024) % 1024
+    const kb = val % 1024
+    return `${gb}:${mb}:${kb} (GB:MB:KB)`
+}
+
 const getUsage = async (page, opts) => {
     opts = opts || {}
     const takeScreenshot = createTakeScreenshot(page)
@@ -38,15 +45,14 @@ const getUsage = async (page, opts) => {
         await takeScreenshot('05-usage-page')
 
         const pageHistory = await page.evaluate(function () {
-            
-            return $('div.table-responsive table tbody tr').map(function () {
-                return $(this).find('td').map(function () {
-                    return $(this).text()
-                }).toArray()
-            }).toArray().slice(1)
+            return $('form div.table-responsive table tbody tr').toArray()
+                .map(el => (
+                    $(el).find('td').toArray()
+                        .map(el => $(el).text())
+                )).filter(history => history.length)
         })
 
-        history = history.concat(pageHistory)
+        history = [...history, ...pageHistory];
     }
     while (await page.evaluate(function () {
         var $a = $('a.paginate_enabled_next.submit_btn').filter(function () {
@@ -61,16 +67,12 @@ const getUsage = async (page, opts) => {
 
     await page.browser().close()
 
-    history = history.reduce((arr, item) => {
-        if (!arr.length || arr[arr.length - 1].length == 7) arr.push([])
-        arr[arr.length - 1].push(item)
-        return arr
-    }, [])
-
     let sumTotal = 0
 
+    const summary = {}
     history = history.reverse().map(p => {
         const dataSection = (p[5].match(/\d+\:\d+\:\d+/i) || [])[0] || ''
+        const serviceType = p[5].split(":")[0].trim();
 
         const nums = dataSection.split(':')
 
@@ -82,9 +84,10 @@ const getUsage = async (page, opts) => {
 
         sumTotal += Number(dataUsedKB) || 0
 
-        const gb = Math.floor(sumTotal / 1024 / 1024)
-        const mb = Math.floor(sumTotal / 1024) % 1024
-        const kb = sumTotal % 1024
+        if (serviceType) {
+            if (!summary[serviceType]) summary[serviceType] = 0
+            summary[serviceType] += dataUsedKB
+        }
 
         return {
             ipAddress: p[0],
@@ -94,24 +97,39 @@ const getUsage = async (page, opts) => {
             callDuration: p[4],
             dataUsed: p[5],
             dataUsedKB,
-            totalDataUsed: `${gb}:${mb}:${kb} (GB:MB:KB)`,
+            totalDataUsed: formatData(sumTotal),
             totalDataUsedKB: sumTotal,
             serviceType: p[6]
         }
     })
-
-    return history.reverse()
+    return {
+        history,
+        summary,
+    }
 }
 
-const print = (records) => {
-    console.log(`ip_address\tstart\t\t\tduration\tdata_used\t\ttotal`)
+const printHistory = (records) => {
+    console.log(`start\t\t\tduration\tdata_used\t\ttotal`)
 
     return records.map(p => {
-        console.log(`${p.ipAddress}\t${p.startTime}\t${p.dataDuration}\t${p.dataUsed.split(' : ').slice(-1)[0] || '0:0:0 (GB:MB:KB)'}\t${p.totalDataUsed}`)
+        console.log(`${p.startTime}\t${p.dataDuration}\t${p.dataUsed.split(' : ').slice(-1)[0] || '0:0:0 (GB:MB:KB)'}\t${p.totalDataUsed}`)
         return p
     })
 }
 
+const printSummary = (summary) => {
+    console.log("Data Usage Summary")
+    console.log('_'.padEnd(55, '_'))
+
+    for (serviceType in summary) {
+        if (!summary[serviceType]) console
+        console.log(`${serviceType.padEnd(20, ' ')}\t\t${formatData(summary[serviceType])}`)
+    }
+    console.log('_'.padEnd(55, '_'))
+    console.log()
+}
+
 module.exports = getUsage
 module.exports.getUsage = getUsage
-module.exports.print = print
+module.exports.printHistory = printHistory
+module.exports.printSummary = printSummary
