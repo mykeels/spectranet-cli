@@ -2,7 +2,7 @@
 
 This is an unofficial CLI tool for accessing Spectranet user account data from its web portal.
 
-![Spectranet CLI Usage Preview](./data-usage-summary.PNG)
+![Spectranet CLI Usage Preview](https://user-images.githubusercontent.com/20991583/85040408-ae836b80-b180-11ea-9f2b-8cf2cce83e70.png)
 
 ## Installation
 

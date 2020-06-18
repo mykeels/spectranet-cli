@@ -2,7 +2,7 @@ const { puppeteer, launch, login, root } = require('./utils/launch.js');
 const { createTakeScreenshot } = require('./utils/screenshot.js');
 const url = require('url');
 const program = require('commander')
-const { getUsage, printHistory, printSummary } = require('./utils/get-usage.js')
+const { getUsage, printHistory, printSummary, printGraph } = require('./utils/get-usage.js')
 
 program
     .option('-f, --from <from>', 'from date in DD-MM-YYYY format')
@@ -18,6 +18,7 @@ program
         const { history, summary } = await getUsage(page, { from, to })
 
         printSummary(summary)
+        printGraph(history)
         printHistory(history)
     }
     catch (err) {

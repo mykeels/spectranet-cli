@@ -1,6 +1,6 @@
 const { createTakeScreenshot } = require('./screenshot.js');
 const url = require('url');
-const moment = require('moment')
+const moment = require('moment');
 
 const formatData = val => {
     const gb = Math.floor(val / 1024 / 1024)
@@ -108,6 +108,16 @@ const getUsage = async (page, opts) => {
     }
 }
 
+const groupByDay = records => { 
+    const dataByDay = {}
+    records.forEach(record => {
+        const day = record.startTime.split(' ')[0]
+        if (!dataByDay[day]) dataByDay[day] = 0 
+        dataByDay[day]+= isNaN(record.dataUsedKB) ? 0 : +record.dataUsedKB 
+    })
+    return dataByDay
+}
+
 const printHistory = (records) => {
     console.log(`start\t\t\tduration\tdata_used\t\ttotal`)
 
@@ -129,7 +139,34 @@ const printSummary = (summary) => {
     console.log()
 }
 
+const printGraph = (records) => {
+    const dailyUsage = groupByDay(records)
+    const availTerminalWidth = (process.stdout.columns - 30) * .8
+    const minUsage = Math.min(...Object.values(dailyUsage))
+    const maxUsage = Math.max(...Object.values(dailyUsage))
+    const range = maxUsage - minUsage;
+    const shouldStartFromZero = minUsage < range;
+    let offset = 0
+    let multiplier = maxUsage / availTerminalWidth
+    if (!shouldStartFromZero) {
+        offset = 3
+        multiplier = range / availTerminalWidth
+    }
+    for (day in dailyUsage) {
+        usage = dailyUsage[day]
+        printBar(day, dailyUsage[day], multiplier, offset)
+    }
+    console.log()
+}
+
+const printBar = (day, usage, multiplier, offset) => {
+    const barLength = Math.floor(offset + (usage / multiplier))
+    const bar = Array(barLength).fill('▇').join('')
+    console.log(`${day} | ${bar} ${formatData(usage)}`)
+}
+
 module.exports = getUsage
 module.exports.getUsage = getUsage
 module.exports.printHistory = printHistory
 module.exports.printSummary = printSummary
+module.exports.printGraph = printGraph
